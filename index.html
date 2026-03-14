@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ULCC | Ukraine Legal Consulting Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;scroll-behavior:smooth;}
+        body{background:#05070d;color:white;overflow-x:hidden;line-height:1.6;}
+        body::before,body::after{content:"";position:fixed;width:1000px;height:1000px;filter:blur(200px);opacity:0.2;z-index:-1;}
+        body::before{background:radial-gradient(circle,#3b82f6 0%,transparent 60%);top:-400px;left:-400px;animation:move1 20s infinite alternate;}
+        body::after{background:radial-gradient(circle,#9333ea 0%,transparent 60%);bottom:-400px;right:-400px;animation:move2 -20s infinite alternate;}
+        @keyframes move1{to{transform:translate(200px,200px);}}
+        @keyframes move2{to{transform:translate(-200px,-200px);}}
+        nav{position:fixed;top:0;width:100%;backdrop-filter:blur(14px);background:rgba(0,0,0,0.6);border-bottom:1px solid rgba(255,255,255,0.08);z-index:1000;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);will-change:transform;}
+        nav.nav-hidden{transform:translateY(-100%);}
+        .nav-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:16px 20px;}
+        .logo-link{display:flex;align-items:center;text-decoration:none;transition:transform 0.3s cubic-bezier(0.2,0,0.2,1);line-height:0;}
+        .logo-link:hover{transform:scale(1.04);}
+        .logo-link {display: flex; align-items: center; text-decoration: none; overflow: hidden; transition: transform 0.3s ease;}
+        .logo-link:hover {transform: scale(1.04);}
+        .logo-divider {color: rgba(255, 255, 255, 0.3); margin: 0 12px; font-size: 24px; font-weight: 200; opacity: 0; transition: opacity 0.5s ease;}
+        .logo-text-wrapper {max-width: 0; overflow: hidden; white-space: nowrap; transition: max-width 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease; opacity: 0; display: flex;  align-items: center; height: 100%; }
+        .logo-full-name {color: #ffffff; font-size: 23px; font-weight: 500; letter-spacing: 0.8px; text-transform: uppercase; line-height: 1; display: block;}
+        .logo-link.active .logo-divider {opacity: 1;}
+        .logo-link.active .logo-text-wrapper {max-width: 400px; opacity: 1;}
+        @media (max-width: 480px) {
+        .logo-text-wrapper {max-width: 100px !important; white-space: normal; line-height: 1.1; display: block !important; word-break: break-all !important; align-items: center; opacity: 0; transform: translateX(-5px); transition: opacity 0.8s ease, transform 0.8s ease;}
+        .logo-link.active .logo-text-wrapper {opacity: 1; transform: translateX(0);}
+        .logo-full-name {font-size: 13px; letter-spacing: 0.5px; text-align: center; display: block; padding: 0; margin: 0;}
+        .logo-divider {margin: 0 8px; font-size: 18px; opacity: 0; transition: opacity 0.3s ease;}
+        .logo-link.active .logo-divider {opacity: 1;}}
+        .nav-links a{color:white;text-decoration:none;margin-left:22px;font-size:14px;opacity:0.7;transition:0.3s;}
+        .nav-links a:hover{opacity:1;color:#3b82f6;}
+        .menu-toggle{display:none;flex-direction:column;gap:6px;cursor:pointer;z-index:1001;}
+        .menu-toggle span{width:30px;height:2px;background:white;transition:0.3s;}
+        @media (max-width:992px){.menu-toggle{display:flex;}.nav-links{position:fixed;top:0;right:-100%;width:100%;height:100vh;background:rgba(5,7,13,0.98);backdrop-filter:blur(20px);display:flex;flex-direction:column;justify-content:center;align-items:center;transition:0.4s cubic-bezier(0.4,0,0.2,1);gap:30px;}.nav-links.active{right:0;}.nav-links a{font-size:24px;margin:0;opacity:1;}.menu-toggle.active span:nth-child(1){transform:translateY(8px) rotate(45deg);}.menu-toggle.active span:nth-child(2){opacity:0;}.menu-toggle.active span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}}
+        .hero{text-align:center;padding:150px 0 100px;}
+        h1{font-size:clamp(40px,8vw,72px);line-height:1.3;margin-bottom:24px;font-weight:800;min-height:1.2em;}
+        .typing-text{word-break:keep-all;overflow-wrap:break-word;}
+        .word{display:inline-block;white-space:nowrap;margin-right:0.08em;}
+        .char{display:inline-block;opacity:0;transform:translateY(15px);will-change:transform,opacity;background-image:linear-gradient(135deg,#ffffff 0%,#f8fafc 40%,#cbd5e1 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:geminiAppear 0.6s cubic-bezier(0.22,1,0.36,1) forwards;padding-bottom:0.15em;margin-bottom:-0.15em;}
+        @keyframes geminiAppear{to{opacity:1;transform:translateY(0);}}
+        .hero-description{margin:0 auto 45px;max-width:900px;}
+        .hero-features, .services-row{display:flex;justify-content:center;align-items:center;gap:25px;margin:25px 0;color:#94a3b8;font-size:19px;flex-wrap:wrap;}
+        .sep{color:#3b82f6!important;font-weight:bold;font-size:24px;}
+        .audience-row{font-size:20px;color:#94a3b8;padding-top:20px;display:inline-block;}
+        .audience-row strong{color:#fff;font-weight:600;text-shadow:0 0 20px rgba(59,130,246,0.4);}
+        @media (max-width:768px){.hero{padding:120px 0 80px;}.hero-features,.services-row{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding-left:20px;text-align:left;}.sep{display:none!important;}.hero-features span:not(.sep)::before,.services-row span:not(.sep)::before{content:"•";color:#3b82f6;margin-right:12px;font-weight:bold;display:inline-block;font-size:22px;}.audience-row{font-size:20px;line-height:1.5;}}
+        .hero-actions{display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin-top:30px;}
+        .button{display:inline-block;padding:16px 36px;border-radius:12px;background:linear-gradient(90deg,#3b82f6,#6366f1);text-decoration:none;color:white;font-weight:600;transition:0.3s;box-shadow:0 10px 20px rgba(59, 130, 246, 0.2);}
+        .button:hover{transform:translateY(-3px);box-shadow:0 15px 30px rgba(59,130,246,0.4);}
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;}
+        .card{padding:40px;border-radius:24px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(12px);transition:0.4s;position:relative;overflow:hidden;font-size:19px}
+        .card:hover{transform:translateY(-10px);background:rgba(255,255,255,0.07);border-color:rgba(59,130,246,0.5);}
+        .card h3{font-size:21px; margin-bottom:15px;color:#3b82f6;}
+        .card-icon{font-size:32px;margin-bottom:20px;display:block;}
+        #investment .grid{justify-content:center;}
+        @media (min-width:992px){#investment .card:last-child{grid-column:1/-1;max-width:500px;justify-self:center;}}
+        .trusted-logos{padding:80px 0;text-align:center;}
+        .logo-ticker{display:flex;justify-content:center;align-items:center;gap:50px;flex-wrap:wrap;max-width:1100px;margin:0 auto;}
+        .logo-ticker img{height:45px;width:auto;max-width:180px;transition:0.3s ease-in-out;cursor:pointer;display:block;}
+        .logo-ticker img:hover{transform:scale(1.15);}
+        @media (max-width:768px){.logo-ticker{gap:30px;}.logo-ticker img{height:35px;}}
+        .mobile-break {display: none;}
+        @media (max-width: 480px) {.mobile-break {display: block;width: 100%;height: 0;}
+        .typing-text {display: flex !important; flex-wrap: wrap !important; white-space: normal !important; justify-content: center;}}
+        section{padding:60px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+        .container{max-width:1200px;margin:auto;padding:0 20px;}
+        h2{font-size:36px;margin-bottom:40px;font-weight:700;text-align:center;}
+        h3{font-size:23px;font-weight:700;}
+        .inner-text{orphans: 2; widows: 2; text-wrap: pretty;} 
+        @media (max-width: 480px) {.inner-text{font-size: 21px;}}
+        .section-desc{text-align:center;max-width:700px;margin:-20px auto 40px;opacity:0.6;font-size:20px;}
+        .stats{display:flex;justify-content:space-around;gap:40px;flex-wrap:wrap;margin-top:60px;text-align:center;}
+        .stat{font-size:48px;font-weight:800;color:#3b82f6;display:block;margin-bottom:8px;}
+        .stat-label{opacity:0.6;text-transform:uppercase;letter-spacing:1px;font-size:20px;}
+        .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;margin-top:50px;}
+        .team-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;overflow:hidden;transition:0.3s;}
+        .team-card:hover{transform:translateY(-10px);background:rgba(255,255,255,0.05);border-color:rgba(59,130,246,0.3);}
+        @media(max-width: 480px) {.desc {font-size: 21px;}}
+        .member-photo{width:100%;aspect-ratio:1/1;background:#1a1a1a;overflow:hidden;}
+        .member-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(0.2);transition:0.3s;}
+        .team-card:hover img{filter:grayscale(0);}
+        .member-info{padding:25px;}
+        .member-info .role{color:#3b82f6;font-size:19px;text-transform:uppercase;letter-spacing:1px;margin-bottom:15px;font-weight:600;}
+        .route{position:absolute;top:-15px;left:0;width:100%;height:100%;pointer-events:none;z-index:2;}
+        .route-map-rounded{position:relative;margin:60px auto;padding:20px 20px 40px;max-width:900px;display:flex;flex-direction:column;align-items:center;}
+        .route-map-rounded::before{content:"";position:absolute;inset:0;border-radius:40px;padding:2px;background:linear-gradient(90deg,#3b82f6,#6366f1);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;}
+        .route-map-rounded img{width:100%;max-width:800px;height:auto;opacity:0.8;}
+        .route-caption{display:flex;align-items:center;justify-content:center;width:100%;margin-top:15px;font-size:18px;font-weight:700;color:#94a3b8;letter-spacing:2px;text-transform:uppercase;}
+        .spark-arrow{width:250px;height:14px;margin:0 30px;transform:translateY(-6px);}
+        @media (max-width:768px){.route-caption{max-width:80%;display: inline-flex !important;align-items: center !important;transform: translateY(-5px) !important;white-space: nowrap !important;max-width: none !important;}.spark-arrow{width:150px;height:10px;margin:0 30px;transform:translateY(-10px);}}
+        .map-container{border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);}
+        .map-container iframe{width:100%;height:450px;border:none;filter:invert(90%) hue-rotate(180deg);}
+        .step-number{position:absolute;top:20px;right:30px;font-size:48px;font-weight:800;color:rgba(59, 130, 246, 0.1);font-family:'Inter',sans-serif;line-height:1;}
+        .wechat{position:fixed;right:30px;bottom:30px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);padding:12px;border-radius:16px;backdrop-filter:blur(12px);text-align:center;z-index:100;transition:0.3s;cursor:pointer;}
+        @media (max-width:768px){.wechat{right:10px;bottom:10px;}}
+        .wechat:hover{background:rgba(255,255,255,0.1);transform:scale(1.05);}
+        .wechat img{width:100px;border-radius:8px;display:block;margin-bottom:8px;}
+        .wechat span{font-size:12px;font-weight:600;color:#22c55e;}
+        footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,0.05);background:linear-gradient(to bottom,transparent,rgba(59, 130, 246, 0.03));}
+        .footer-logo-img{height:45px;width:auto;margin-bottom:20px;transition:0.4s;}
+        .footer-logo-img:hover{transform:translateY(-5px);filter:drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));}
+        .footer-links{display:flex;justify-content:center;gap:25px;margin-bottom:30px;}
+        .footer-links a{color:white;text-decoration:none;font-size:18px;opacity:0.5;transition:0.3s;}
+        .footer-links a:hover{opacity:1;color:#3b82f6;}
+        .footer-copy{font-size:13px;opacity:0.3;line-height:1.8;letter-spacing:0.5px;}
+        @media (max-width: 480px) {.footer-links {display: flex !important; flex-wrap: wrap !important; justify-content: center !important; gap: 8px 12px !important; padding: 0 10px;} .footer-links a { font-size: 18px !important; white-space: nowrap !important;} .footer-copy {font-size: 11px !important; line-height: 1.4; margin-top: 20px; }}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="logo-link" onclick="scrollToTop(event)">
+                <img src="CPKlogowhite.svg" alt="ULCC Logo" style="height: 30px; width: auto; display: block;">
+                <span class="logo-divider">|</span>
+                <div class="logo-text-wrapper">
+                    <span class="logo-full-name">乌克兰法律咨询中心</span>
+                </div>
+            </a>
+
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="#about" onclick="toggleMenu()">关于我们</a>
+                <a href="#investment" onclick="toggleMenu()">投资</a>
+                <a href="#services" onclick="toggleMenu()">服务</a>
+                <a href="#entry" onclick="toggleMenu()">进入市场</a>
+                <a href="#team" onclick="toggleMenu()">团队</a>
+                <a href="#contact" onclick="toggleMenu()">联系</a>
+                <a href="en.html" class="lang-switch" onclick="toggleMenu()">English</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+    <section class="hero">
+        <div style="display: inline-flex; align-items: center; background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;">
+            <span style="width: 16px; height: 11px; background: linear-gradient(to bottom, #0057b7 50%, #ffd700 50%); border-radius: 1px; margin-right: 8px;"></span>
+            <span style="font-size: 15px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; font-weight: 600;">立足乌克兰</span>
+        </div>
+        
+        <h1 class="typing-text"></h1>
+
+        <div class="hero-description">
+            <div class="hero-features"> <span>专业法律支持</span>
+                <span class="sep">•</span>
+                <span>跨境投资咨询</span>
+                <span class="sep">•</span>
+                <span>乌克兰市场准入</span>
+            </div>
+            <div class="audience-row">
+                专门为<strong>中国企业</strong>和<strong>国际投资者</strong>提供进入乌克兰市场的法律解决方案
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <a class="button" href="#contact">立即咨询</a>
+            <a class="button" href="#services" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">投资领域</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2>关于 ULCC</h2>
+        <p class="section-desc">自2004年起，ULCC（乌克兰法律咨询中心）专注于协助中国企业进入乌克兰市场，提供从市场准入到合规运营的全流程法律服务</p>
+        
+        <div class="grid">
+            <div class="card">
+                <span class="card-icon">🤝</span>
+                <h3>中乌商业桥梁</h3>
+                <p class ="inner-text">团队拥有中文母语顾问与乌克兰执业律师，深度理解两国商业文化与法律差异</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">⚖️</span>
+                <h3>法律专业服务</h3>
+                <p class ="inner-text">精通乌克兰公司法、税法及劳动法，为中国企业定制合规方案，规避法律风险</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🚀</span>
+                <h3>快速进入市场</h3>
+                <p class ="inner-text">高效完成公司注册、许可证办理及本地化落地，缩短进入周期</p>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div><span class="stat">20+</span><span class="stat-label">年成功经验</span></div>
+            <div><span class="stat">300+</span><span class="stat-label">全球客户</span></div>
+            <div><span class="stat">500M$+</span><span class="stat-label">管理投资额</span></div>
+            <div><span class="stat">100%</span><span class="stat-label">中文服务支持</span></div>
+        </div>
+    </section>
+
+    <section id="trusted" class="trusted-logos">
+        <h2>我们的战略合作伙伴</h2>
+        <p class="section-desc">与行业领先企业建立长期战略合作伙伴关系</p>
+        
+        <div class="container">
+            <div class="logo-ticker">
+                <img src="client-logos/logo1.svg" alt="Partner Name">
+                <img src="client-logos/logo2.svg" alt="Partner Name">
+                <img src="client-logos/logo3.svg" alt="Partner Name">
+                <img src="client-logos/logo4.svg" alt="Partner Name">
+                <img src="client-logos/logo5.svg" alt="Partner Name">
+                <img src="client-logos/logo6.svg" alt="Partner Name">
+                <img src="client-logos/logo7.svg" alt="Partner Name">
+                <img src="client-logos/logo8.svg" alt="Partner Name">
+                <img src="client-logos/logo9.svg" alt="Partner Name">
+                <img src="client-logos/logo10.svg" alt="Partner Name">
+                <img src="client-logos/logo11.svg" alt="Partner Name">
+                <img src="client-logos/logo12.svg" alt="Partner Name">
+                <img src="client-logos/logo13.svg" alt="Partner Name">
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>战略物流枢纽</h2>
+        <p class="section-desc">乌克兰是“一带一路”重要节点，连接中国与欧洲市场。我们为跨境贸易、物流投资提供全方位的法律合规服务</p>
+        
+        <div class="route-map-rounded">
+            <img src="ukr-china.svg" alt="Route Map">
+            
+            <svg class="route" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="glow-bright">
+                        <feGaussianBlur stdDeviation="5" result="blur"/>
+                        <feMerge>
+                            <feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <path id="r1" d="M 220 170 C 350 100 650 100 780 170" stroke="#60a5fa" stroke-width="2" fill="none" stroke-dasharray="6 8" opacity="0.4"/>
+                <path id="r2" d="M 220 200 C 350 140 650 140 780 200" stroke="#60a5fa" stroke-width="2" fill="none" stroke-dasharray="6 8" opacity="0.4"/>
+                <path id="r3" d="M 220 230 C 350 180 650 180 780 230" stroke="#60a5fa" stroke-width="2" fill="none" stroke-dasharray="6 8" opacity="0.4"/>
+                
+                <circle r="4" fill="#3b82f6" filter="url(#glow-bright)" opacity="0"><animate id="p1" attributeName="opacity" values="0;1;1;0" dur="2s" begin="0s;p1.end+3s" repeatCount="indefinite" /><animateMotion dur="3.2s" begin="0s;p1.end+3s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1"><mpath href="#r1"/></animateMotion></circle>
+                <circle r="3" fill="#ffffff" filter="url(#glow-bright)" opacity="0"><animate id="p2" attributeName="opacity" values="0;1;1;0" dur="1.8s" begin="1.5s;p2.end+4s" repeatCount="indefinite" /><animateMotion dur="2.8s" begin="1.5s;p2.end+4s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1"><mpath href="#r1"/></animateMotion></circle>
+                <circle r="4" fill="#60a5fa" filter="url(#glow-bright)" opacity="0"><animate id="p3" attributeName="opacity" values="0;1;1;0" dur="2.5s" begin="0.8s;p3.end+2s" repeatCount="indefinite" /><animateMotion dur="4s" begin="0.8s;p3.end+2s" repeatCount="indefinite" rotate="auto" keyPoints="0;0.4;1" keyTimes="0;0.3;1"><mpath href="#r2"/></animateMotion></circle>
+                <circle r="3.5" fill="#3b82f6" filter="url(#glow-bright)" opacity="0"><animate id="p4" attributeName="opacity" values="0;1;1;0" dur="1.5s" begin="3s;p4.end+5s" repeatCount="indefinite" /><animateMotion dur="2.4s" begin="3s;p4.end+5s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1"><mpath href="#r2"/></animateMotion></circle>
+                <circle r="4" fill="#93c5fd" filter="url(#glow-bright)" opacity="0"><animate id="p5" attributeName="opacity" values="0;1;1;0" dur="3s" begin="0.2s;p5.end+6s" repeatCount="indefinite" /><animateMotion dur="5s" begin="0.2s;p5.end+6s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1"><mpath href="#r3"/></animateMotion></circle>
+                <circle r="4" fill="#ffffff" filter="url(#glow-bright)" opacity="0"><animate id="p6" attributeName="opacity" values="0;1;1;0" dur="2s" begin="2.5s;p6.end+3s" repeatCount="indefinite" /><animateMotion dur="3.5s" begin="2.5s;p6.end+3s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1"><mpath href="#r3"/></animateMotion></circle>
+            </svg>
+            
+            <div class="route-caption">
+                <span class="caption-ukraine">乌克兰</span>
+                
+                <div class="spark-arrow">
+                    <svg viewBox="0 0 250 14" preserveAspectRatio="none" style="width: 100%; height: 100%;" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <filter id="glow-spark">
+                                <feGaussianBlur stdDeviation="2" result="blur"/>
+                                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                            </filter>
+                        </defs>
+                        
+                        <path id="arrow-line" d="M 10 7 L 240 7" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.3"/>
+                        
+                        <path d="M 10 7 L 20 3 M 10 7 L 20 11" stroke="#3b82f6" stroke-width="1.5" opacity="0.5"/>
+                        <path d="M 240 7 L 230 3 M 240 7 L 230 11" stroke="#3b82f6" stroke-width="1.5" opacity="0.5"/>
+
+                        <circle r="2.5" fill="#3b82f6" filter="url(#glow-spark)" opacity="0">
+                            <animate id="s1" attributeName="opacity" values="0;1;1;0" dur="1s" begin="0s;s1.end+1s" repeatCount="indefinite" />
+                            <animateMotion dur="1.8s" repeatCount="indefinite"><mpath href="#arrow-line"/></animateMotion>
+                        </circle>
+
+                        <circle r="2" fill="#ffffff" filter="url(#glow-spark)" opacity="0">
+                            <animate id="s2" attributeName="opacity" values="0;1;1;0" dur="0.8s" begin="0.5s;s2.end+1.5s" repeatCount="indefinite" />
+                            <animateMotion dur="1.5s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1"><mpath href="#arrow-line"/></animateMotion>
+                        </circle>
+                    </svg>
+                </div>
+
+                <span class="caption-china">中国</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="investment">
+        <h2>重点投资领域</h2>
+        <div class="grid">
+            <div class="card">
+                <span class="card-icon">🌾</span>
+                <h3>农业</h3>
+                <p class ="inner-text">黑土地资源、粮食出口物流、农产品深加工及食品加工</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">⚡</span>
+                <h3>能源</h3>
+                <p class ="inner-text">光伏、风电等绿色能源项目，以及电网改造与储能设施建设</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">💻</span>
+                <h3>IT 与科技</h3>
+                <p class ="inner-text">依托乌克兰顶尖工程人才，设立研发中心、软件开发外包与IT服务</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🏗️</span>
+                <h3>基础设施</h3>
+                <p class ="inner-text">公路、港口、桥梁建设，以及“一带一路”框架下的物流枢纽项目</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <h2>我们的专业服务</h2>
+        <p class="section-desc">覆盖您在乌克兰及欧洲业务全周期的法律、税务与行政支持</p>
+        <div class="grid">
+            <div class="card">
+                <h3>公司法务</h3>
+                <p class ="inner-text">公司注册（有限责任公司、合资企业）、代表处设立及公司治理结构设计</p>
+            </div>
+            <div class="card">
+                <h3>银行与金融</h3>
+                <p class ="inner-text">企业账户开立、外汇管制合规、跨境资金流动及利润汇回咨询</p>
+            </div>
+            <div class="card">
+                <h3>税务筹划</h3>
+                <p class ="inner-text">国际税务优化、 VAT增值税退税、转移定价及全面会计服务</p>
+            </div>
+            <div class="card">
+                <h3>知识产权保护</h3>
+                <p class ="inner-text">商标注册、专利保护及知识产权维权，覆盖乌克兰及欧洲司法管辖区</p>
+            </div>
+            <div class="card">
+                <h3>并购咨询 (M&A)</h3>
+                <p class ="inner-text">尽职调查、资产评估、交易结构设计及并购全程法律支持</p>
+            </div>
+            <div class="card">
+                <h3>政府关系与许可</h3>
+                <p class ="inner-text">与地方政府对接、特殊经营许可、行业准入资质及执照办理</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="entry">
+        <h2>市场准入路线图</h2>
+        <p class="section-desc">六步走，快速、合规启动您在乌克兰的业务</p>
+        
+        <div class="grid">
+            <div class="card">
+                <div class="step-number">01</div>
+                <span class="card-icon">📋</span>
+                <h3>准入前咨询</h3>
+                <p class ="inner-text">市场分析、法律结构设计、税务模式选择（有限公司 vs 代表处）</p>
+            </div>
+
+            <div class="card">
+                <div class="step-number">02</div>
+                <span class="card-icon">⚖️</span>
+                <h3>实体注册</h3>
+                <p class ="inner-text">全套法律注册手续、公司章程起草、国家注册证书获取</p>
+            </div>
+
+            <div class="card">
+                <div class="step-number">03</div>
+                <span class="card-icon">🏦</span>
+                <h3>银行与税务</h3>
+                <p class ="inner-text">公司账户开立、税务登记（增值税/单一税）、KYC文件准备与提交</p>
+            </div>
+
+            <div class="card">
+                <div class="step-number">04</div>
+                <span class="card-icon">🛡️</span>
+                <h3>许可与执照</h3>
+                <p class ="inner-text">行业特定执照、消防安全许可、卫生防疫审批</p>
+            </div>
+
+            <div class="card">
+                <div class="step-number">05</div>
+                <span class="card-icon">🛂</span>
+                <h3>团队安置</h3>
+                <p class ="inner-text">外籍员工工作许可、临时居留证、个人税号及签证支持</p>
+            </div>
+
+            <div class="card">
+                <div class="step-number">06</div>
+                <span class="card-icon">🚀</span>
+                <h3>运营启动</h3>
+                <p class ="inner-text">本地合同起草、劳动法合规咨询、持续性法律支持</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="team">
+        <h2 style="text-align: center;">我们的管理团队</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="member-photo">
+                    <img src="manager1.png" alt="Andrew Olefirenko">
+                </div>
+                <div class="member-info">
+                    <h3>ANDREW OLEFIRENKO</h3>
+                    <p class="role">管理合伙人 • CEO</p>
+                    <p class="desc">法学博士，执业律师，25年以上经验。专长于公司法、跨国监管合规及战略争议解决。致力于为进入乌克兰及欧洲市场的国际投资者提供高水平的法律保护</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="member-photo">
+                    <img src="manager2.png" alt="Viktor Elberg">
+                </div>
+                <div class="member-info">
+                    <h3>VIKTOR ELBERG</h3>
+                    <p class="role">管理合伙人 • 国际部负责人</p>
+                    <p class="desc">深耕人工智能与IT基础设施领域，同时作为资深企业家，主导中国在乌克兰及哈萨克斯坦的工业与投资项目。精通7门语言，擅长连接全球技术与本地市场</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="member-photo">
+                    <img src="manager3.png" alt="Yulia Pavlenko">
+                </div>
+                <div class="member-info">
+                    <h3>YULIA PAVLENKO</h3>
+                    <p class="role">管理合伙人 • 税务部负责人</p>
+                    <p class="desc">乌克兰合规与税务优化专家。专精外资企业市场准入战略及国际投资交易结构设计。曾为多家全球企业提供进入乌克兰及欧盟市场的法律保障，确保跨境运营合规透明</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="member-photo">
+                    <img src="manager4.png" alt="Konstantin Barkov">
+                </div>
+                <div class="member-info">
+                    <h3>KONSTANTIN BARKOV</h3>
+                    <p class="role">高级律师 (Senior Associate)</p>
+                    <p class="desc">公司法专家，专精跨国集团风险管理、合规体系搭建及架构优化。曾为多家外资企业提供从市场准入到日常运营的全周期法律支持，保障业务安全与合规可持续</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="member-photo">
+                    <img src="manager5.png" alt="Christina Shvets">
+                </div>
+                <div class="member-info">
+                    <h3>DANA JIANG</h3>
+                    <p class="role">中国籍商业顾问</p>
+                    <p class="desc">南乌克兰师范大学管理学硕士。多年跨国商业经验，长期在乌生活工作，深谙当地商业环境与法律框架。专长于为中国企业提供海外投资咨询与市场对接支持</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="member-photo">
+                    <img src="manager6.png" alt="Yulia Kravchuk">
+                </div>
+                <div class="member-info">
+                    <h3>CHRISTINA KRAVCHUK</h3>
+                        <p class="role">高级律师 (Senior Associate)</p>
+                        <p class="desc">执业律师，专精公司法及跨境商业架构设计。为企业主提供公司治理、资产保护及继承结构规划，确保家族企业平稳过渡与长期发展</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>开启您的投资之旅</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>基辅办公室</h3>
+                <p>📍 乌克兰，基辅，舍甫琴科大道</p>
+                <p>📞 +38 068 937 8118</p>
+                <p>📧 info@ukraine-law.com</p>
+            </div>
+            <div class="card">
+                <h3>中国业务对接</h3>
+                <p>📍 北京 / 杭州 / 乌鲁木齐 服务中心</p>
+                <p>📧 china@ukraine-law.com</p>
+            </div>
+            <div class="card" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));">
+                <h3>免费咨询</h3>
+                <p>请发送您的需求，我们的专家将在 24 小时内与您联系。</p>
+                <a href="mailto:office@cpk.ua" class="button" style="margin-top: 15px; width: 100%; text-align: center;">发送邮件</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="location">
+        <div class="container">
+            <h2>办公地点</h2>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2540.819382215456!2d30.495548476964265!3d50.44167158778641!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4cefbdb0ec9ff%3A0x40a4c3c98f4fb508!2z0LLRg9C70LjRhtGPINCh0LDQutGB0LDQs9Cw0L3RgdGM0LrQvtCz0L4sIDEyMSwg0JrQuNGX0LIsIDAyMDAw!5e0!3m2!1suk!2sua!4v1710000000000!5m2!1suk!2sua" 
+                    width="100%" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <a href="#">
+                <img src="CPKlogowhite.svg" alt="ULCC Logo" class="footer-logo-img">
+            </a>
+
+            <div class="footer-links">
+                <a href="#about">关于我们</a>
+                <a href="#services">专业服务</a>
+                <a href="#investment">投资领域</a>
+                <a href="#team">团队</a>
+                <a href="#contact">联系我们</a>
+            </div>
+
+            <p class="footer-copy">
+                © 2026 乌克兰法律咨询中心 (ULCC) 保留所有权利<br>
+                自2004年至今，专注服务中乌商业走廊，助力中国企业稳健进入乌克兰市场
+            </p>
+        </div>
+    </footer>
+</div>
+
+<div class="wechat">
+    <img src="wechat.svg" alt="WeChat QR"> <span>微信咨询</span>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const introText = "进入乌克兰与欧洲的法律服务";
+    const container = document.querySelector(".typing-text");
+
+    if (!container) return;
+    container.innerHTML = '';
+    
+    let charGlobalIndex = 0;
+
+    introText.split("").forEach((char) => {
+        if (char === "|") {
+            const breakSpan = document.createElement("span");
+            breakSpan.className = "mobile-break";
+            container.appendChild(breakSpan);
+        } else {
+            const charSpan = document.createElement("span");
+            charSpan.textContent = char;
+            charSpan.className = "char";
+            charSpan.style.animationDelay = `${charGlobalIndex * 0.05}s`;
+            container.appendChild(charSpan);
+            charGlobalIndex++;
+        }
+    });
+});
+
+function scrollToTop(event) {
+    event.preventDefault();
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const logo = document.querySelector('.logo-link');
+        if (logo) logo.classList.add('active');
+    }, 500); 
+});
+
+function toggleMenu() {
+    const nav = document.getElementById('navLinks');
+    const toggle = document.querySelector('.menu-toggle');
+    
+    if (window.innerWidth <= 992) {
+        nav.classList.toggle('active');
+        toggle.classList.toggle('active');
+        document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
+    }
+}
+
+let lastScrollY = window.scrollY;
+
+window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    const currentScrollY = window.scrollY;
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        nav.classList.add('nav-hidden');
+    } 
+    else {
+        nav.classList.remove('nav-hidden');
+    }
+
+    lastScrollY = currentScrollY;
+});
+
+</script>
+
+</body>
+</html>

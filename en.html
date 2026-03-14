@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ULCC | Ukraine Legal Consulting Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;scroll-behavior:smooth;}
+        body{background:#05070d;color:white;overflow-x:hidden;line-height:1.6;}
+        body::before,body::after{content:"";position:fixed;width:1000px;height:1000px;filter:blur(200px);opacity:0.2;z-index:-1;}
+        body::before{background:radial-gradient(circle,#3b82f6 0%,transparent 60%);top:-400px;left:-400px;animation:move1 20s infinite alternate;}
+        body::after{background:radial-gradient(circle,#9333ea 0%,transparent 60%);bottom:-400px;right:-400px;animation:move2 -20s infinite alternate;}
+        @keyframes move1{to{transform:translate(200px,200px);}}
+        @keyframes move2{to{transform:translate(-200px,-200px);}}
+        nav{position:fixed;top:0;width:100%;backdrop-filter:blur(14px);background:rgba(0,0,0,0.6);border-bottom:1px solid rgba(255,255,255,0.08);z-index:1000;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);will-change:transform;}
+        nav.nav-hidden{transform:translateY(-100%);}
+        .nav-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:16px 20px;}
+        .logo-link{display:flex;align-items:center;text-decoration:none;transition:transform 0.3s cubic-bezier(0.2,0,0.2,1);line-height:0;}
+        .logo-link:hover{transform:scale(1.04);}
+        .logo-link {display: flex; align-items: center; text-decoration: none; overflow: hidden; transition: transform 0.3s ease;}
+        .logo-link:hover {transform: scale(1.04);}
+        .logo-divider {color: rgba(255, 255, 255, 0.3); margin: 0 12px; font-size: 24px; font-weight: 200; opacity: 0; transition: opacity 0.5s ease;}
+        .logo-text-wrapper {max-width: 0; overflow: hidden; white-space: nowrap; transition: max-width 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease; opacity: 0; display: flex;  align-items: center; height: 100%; }
+        .logo-full-name {color: #ffffff; font-size: 13px; font-weight: 500; letter-spacing: 0.8px; text-transform: uppercase; line-height: 1; display: block;}
+        .logo-link.active .logo-divider {opacity: 1;}
+        .logo-link.active .logo-text-wrapper {max-width: 400px; opacity: 1;}
+        @media (max-width: 480px) {
+        .logo-text-wrapper {max-width: 100px !important; white-space: normal; line-height: 1.1; display: flex; align-items: center; opacity: 0; transform: translateX(-5px); transition: opacity 0.8s ease, transform 0.8s ease;}
+        .logo-link.active .logo-text-wrapper {opacity: 1; transform: translateX(0);}
+        .logo-full-name {font-size: 10px; letter-spacing: 0.5px; text-align: left; display: block; padding: 0; margin: 0;}
+        .logo-divider {margin: 0 8px; font-size: 18px; opacity: 0; transition: opacity 0.3s ease;}
+        .logo-link.active .logo-divider {opacity: 1;}}
+        .nav-links a{color:white;text-decoration:none;margin-left:22px;font-size:14px;opacity:0.7;transition:0.3s;}
+        .nav-links a:hover{opacity:1;color:#3b82f6;}
+        .menu-toggle{display:none;flex-direction:column;gap:6px;cursor:pointer;z-index:1001;}
+        .menu-toggle span{width:30px;height:2px;background:white;transition:0.3s;}
+        @media (max-width:992px){.menu-toggle{display:flex;}.nav-links{position:fixed;top:0;right:-100%;width:100%;height:100vh;background:rgba(5,7,13,0.98);backdrop-filter:blur(20px);display:flex;flex-direction:column;justify-content:center;align-items:center;transition:0.4s cubic-bezier(0.4,0,0.2,1);gap:30px;}.nav-links.active{right:0;}.nav-links a{font-size:24px;margin:0;opacity:1;}.menu-toggle.active span:nth-child(1){transform:translateY(8px) rotate(45deg);}.menu-toggle.active span:nth-child(2){opacity:0;}.menu-toggle.active span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}}
+        .hero{text-align:center;padding:150px 0 100px;}
+        h1{font-size:clamp(40px,8vw,72px);line-height:1.1;margin-bottom:24px;font-weight:800;min-height:1.2em;}
+        .typing-text{word-break:keep-all;overflow-wrap:break-word;}
+        .word{display:inline-block;white-space:nowrap;margin-right:0.08em;}
+        .char{display:inline-block;opacity:0;transform:translateY(15px);will-change:transform,opacity;background-image:linear-gradient(135deg,#ffffff 0%,#f8fafc 40%,#cbd5e1 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:geminiAppear 0.6s cubic-bezier(0.22,1,0.36,1) forwards;padding-bottom:0.15em;margin-bottom:-0.15em;}
+        @keyframes geminiAppear{to{opacity:1;transform:translateY(0);}}
+        .hero-description{margin:0 auto 45px;max-width:900px;}
+        .hero-features, .services-row{display:flex;justify-content:center;align-items:center;gap:25px;margin:25px 0;color:#94a3b8;font-size:18px;flex-wrap:wrap;}
+        .sep{color:#3b82f6!important;font-weight:bold;font-size:24px;}
+        .audience-row{font-size:20px;color:#94a3b8;padding-top:20px;display:inline-block;}
+        .audience-row strong{color:#fff;font-weight:600;text-shadow:0 0 20px rgba(59,130,246,0.4);}
+        @media (max-width:768px){.hero{padding:120px 0 80px;}.hero-features,.services-row{flex-direction:column!important;align-items:flex-start!important;display:inline-flex!important;gap:12px!important;padding-left:20px;text-align:left;}.sep{display:none!important;}.hero-features span:not(.sep)::before,.services-row span:not(.sep)::before{content:"•";color:#3b82f6!important;margin-right:12px;font-weight:bold;display:inline-block;font-size:22px;}.audience-row{font-size:17px;line-height:1.5;}}
+        .hero-actions{display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin-top:30px;}
+        .button{display:inline-block;padding:16px 36px;border-radius:12px;background:linear-gradient(90deg,#3b82f6,#6366f1);text-decoration:none;color:white;font-weight:600;transition:0.3s;box-shadow:0 10px 20px rgba(59, 130, 246, 0.2);}
+        .button:hover{transform:translateY(-3px);box-shadow:0 15px 30px rgba(59,130,246,0.4);}
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;}
+        .card{padding:40px;border-radius:24px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(12px);transition:0.4s;position:relative;overflow:hidden;}
+        .card:hover{transform:translateY(-10px);background:rgba(255,255,255,0.07);border-color:rgba(59,130,246,0.5);}
+        .card h3{margin-bottom:15px;color:#3b82f6;}
+        .card-icon{font-size:32px;margin-bottom:20px;display:block;}
+        #investment .grid{justify-content:center;}
+        @media (min-width:992px){#investment .card:last-child{grid-column:1/-1;max-width:500px;justify-self:center;}}
+        .trusted-logos{padding:80px 0;text-align:center;}
+        .logo-ticker{display:flex;justify-content:center;align-items:center;gap:50px;flex-wrap:wrap;max-width:1100px;margin:0 auto;}
+        .logo-ticker img{height:45px;width:auto;max-width:180px;transition:0.3s ease-in-out;cursor:pointer;display:block;}
+        .logo-ticker img:hover{transform:scale(1.15);}
+        @media (max-width:768px){.logo-ticker{gap:30px;}.logo-ticker img{height:35px;}}
+        section{padding:60px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+        .container{max-width:1200px;margin:auto;padding:0 20px;}
+        h2{font-size:36px;margin-bottom:40px;font-weight:700;text-align:center;}
+        .section-desc{text-align:center;max-width:700px;margin:-20px auto 40px;opacity:0.6;font-size:18px;}
+        .stats{display:flex;justify-content:space-around;gap:40px;flex-wrap:wrap;margin-top:60px;text-align:center;}
+        .stat{font-size:48px;font-weight:800;color:#3b82f6;display:block;margin-bottom:8px;}
+        .stat-label{opacity:0.6;text-transform:uppercase;letter-spacing:1px;font-size:15px;}
+        .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;margin-top:50px;}
+        .team-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;overflow:hidden;transition:0.3s;}
+        .team-card:hover{transform:translateY(-10px);background:rgba(255,255,255,0.05);border-color:rgba(59,130,246,0.3);}
+        .member-photo{width:100%;aspect-ratio:1/1;background:#1a1a1a;overflow:hidden;}
+        .member-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(0.2);transition:0.3s;}
+        .team-card:hover img{filter:grayscale(0);}
+        .member-info{padding:25px;}
+        .member-info .role{color:#3b82f6;font-size:14px;text-transform:uppercase;letter-spacing:1px;margin-bottom:15px;font-weight:600;}
+        .route{position:absolute;top:-15px;left:0;width:100%;height:100%;pointer-events:none;z-index:2;}
+        .route-map-rounded{position:relative;margin:60px auto;padding:20px 20px 40px;max-width:900px;display:flex;flex-direction:column;align-items:center;}
+        .route-map-rounded::before{content:"";position:absolute;inset:0;border-radius:40px;padding:2px;background:linear-gradient(90deg,#3b82f6,#6366f1);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;}
+        .route-map-rounded img{width:100%;max-width:800px;height:auto;opacity:0.8;}
+        .route-caption{display:flex;align-items:center;justify-content:center;width:100%;margin-top:15px;font-size:18px;font-weight:700;color:#94a3b8;letter-spacing:2px;text-transform:uppercase;}
+        .spark-arrow{width:250px;height:14px;margin:0 30px;transform:translateY(-6px);}
+        @media (max-width:768px){.route-caption{max-width:80%;}.spark-arrow{width:250px;height:10px;margin:0 30px;transform:translateY(-10px);}}
+        .map-container{border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);}
+        .map-container iframe{width:100%;height:450px;border:none;filter:invert(90%) hue-rotate(180deg);}
+        .step-number{position:absolute;top:20px;right:30px;font-size:48px;font-weight:800;color:rgba(59, 130, 246, 0.1);font-family:'Inter',sans-serif;line-height:1;}
+        .wechat{position:fixed;right:30px;bottom:30px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);padding:12px;border-radius:16px;backdrop-filter:blur(12px);text-align:center;z-index:100;transition:0.3s;cursor:pointer;}
+        @media (max-width:768px){.wechat{right:10px;bottom:10px;}}
+        .wechat:hover{background:rgba(255,255,255,0.1);transform:scale(1.05);}
+        .wechat img{width:100px;border-radius:8px;display:block;margin-bottom:8px;}
+        .wechat span{font-size:12px;font-weight:600;color:#22c55e;}
+        footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,0.05);background:linear-gradient(to bottom,transparent,rgba(59, 130, 246, 0.03));}
+        .footer-logo-img{height:45px;width:auto;margin-bottom:20px;transition:0.4s;}
+        .footer-logo-img:hover{transform:translateY(-5px);filter:drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));}
+        .footer-links{display:flex;justify-content:center;gap:25px;margin-bottom:30px;}
+        .footer-links a{color:white;text-decoration:none;font-size:14px;opacity:0.5;transition:0.3s;}
+        .footer-links a:hover{opacity:1;color:#3b82f6;}
+        .footer-copy{font-size:13px;opacity:0.3;line-height:1.8;letter-spacing:0.5px;}
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-inner">
+        <a href="#" class="logo-link" onclick="scrollToTop(event)">
+            <img src="CPKlogowhite.svg" alt="ULCC Logo" style="height: 30px; width: auto; display: block;">
+            <span class="logo-divider">|</span>
+            <div class="logo-text-wrapper">
+                <span class="logo-full-name">Ukraine Legal Consulting Center</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="#about" onclick="toggleMenu()">About</a>
+            <a href="#investment" onclick="toggleMenu()">Investment</a>
+            <a href="#services" onclick="toggleMenu()">Services</a>
+            <a href="#entry" onclick="toggleMenu()">Market Entry</a>
+            <a href="#team" onclick="toggleMenu()">Team</a>
+            <a href="#contact" onclick="toggleMenu()">Contact</a>
+            <a href="index.html" class="lang-switch" onclick="toggleMenu()">中文</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <section class="hero">
+        <div style="display: inline-flex; align-items: center; background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;">
+            <span style="width: 16px; height: 11px; background: linear-gradient(to bottom, #0057b7 50%, #ffd700 50%); border-radius: 1px; margin-right: 8px;"></span>
+            <span style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; font-weight: 600;">Based in Ukraine</span>
+        </div>
+        
+        <h1 class="typing-text"></h1>
+
+        <div class="hero-description">
+            <div class="hero-features"> <span>Comprehensive Legal Support</span>
+                <span class="sep">•</span>
+                <span>Investment Consulting</span>
+                <span class="sep">•</span>
+                <span>Market Entry Strategies</span>
+            </div>
+            <div class="audience-row">
+                Specifically tailored for <strong>Chinese Enterprises</strong> and <strong>International Investors</strong>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <a class="button" href="#contact">Contact Expert</a>
+            <a class="button" href="#services" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">Explore Services</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2>About ULCC</h2>
+        <p class="section-desc">Ukraine Legal Consulting Center (ULCC) bridge the gap between Chinese business ambitions and Ukrainian market opportunities since 2004.</p>
+        
+        <div class="grid">
+            <div class="card">
+                <span class="card-icon">🤝</span>
+                <h3>Cultural Bridge</h3>
+                <p>We speak your language. Our team includes native Chinese speakers and legal experts who understand the nuances of both business cultures</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">⚖️</span>
+                <h3>Legal Expertise</h3>
+                <p>Deep knowledge of Ukrainian corporate, tax, and labor law ensures your business remains 100% compliant and protected</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🚀</span>
+                <h3>Fast Track Entry</h3>
+                <p>We minimize bureaucratic hurdles, accelerating the process of company formation and licensing for international investors</p>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div><span class="stat">20+</span><span class="stat-label">Years of Trust</span></div>
+            <div><span class="stat">300+</span><span class="stat-label">Global Clients</span></div>
+            <div><span class="stat">500M$</span><span class="stat-label">Investments Managed</span></div>
+            <div><span class="stat">100%</span><span class="stat-label">Chinese Support</span></div>
+        </div>
+    </section>
+
+    <section id="trusted" class="trusted-logos">
+        <h2>Trusted by Industry Leaders</h2>
+        <p class="section-desc">We foster long-term partnerships with leading enterprises</p>
+        
+        <div class="container">
+            <div class="logo-ticker">
+                <img src="client-logos/logo1.svg" alt="Partner Name">
+                <img src="client-logos/logo2.svg" alt="Partner Name">
+                <img src="client-logos/logo3.svg" alt="Partner Name">
+                <img src="client-logos/logo4.svg" alt="Partner Name">
+                <img src="client-logos/logo5.svg" alt="Partner Name">
+                <img src="client-logos/logo6.svg" alt="Partner Name">
+                <img src="client-logos/logo7.svg" alt="Partner Name">
+                <img src="client-logos/logo8.svg" alt="Partner Name">
+                <img src="client-logos/logo9.svg" alt="Partner Name">
+                <img src="client-logos/logo10.svg" alt="Partner Name">
+                <img src="client-logos/logo11.svg" alt="Partner Name">
+                <img src="client-logos/logo12.svg" alt="Partner Name">
+                <img src="client-logos/logo13.svg" alt="Partner Name">
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Strategic Logistics Hub</h2>
+        <p class="section-desc">Ukraine is the vital link in the New Silk Road, connecting markets with transparent legal protection</p>
+        
+        <div class="route-map-rounded">
+            <img src="ukr-china.svg" alt="Route Map">
+            
+            <svg class="route" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="glow-bright">
+                        <feGaussianBlur stdDeviation="5" result="blur"/>
+                        <feMerge>
+                            <feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <path id="r1" d="M 220 170 C 350 100 650 100 780 170" stroke="#60a5fa" stroke-width="2" fill="none" stroke-dasharray="6 8" opacity="0.4"/>
+                <path id="r2" d="M 220 200 C 350 140 650 140 780 200" stroke="#60a5fa" stroke-width="2" fill="none" stroke-dasharray="6 8" opacity="0.4"/>
+                <path id="r3" d="M 220 230 C 350 180 650 180 780 230" stroke="#60a5fa" stroke-width="2" fill="none" stroke-dasharray="6 8" opacity="0.4"/>
+                
+                <circle r="4" fill="#3b82f6" filter="url(#glow-bright)" opacity="0"><animate id="p1" attributeName="opacity" values="0;1;1;0" dur="2s" begin="0s;p1.end+3s" repeatCount="indefinite" /><animateMotion dur="3.2s" begin="0s;p1.end+3s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1"><mpath href="#r1"/></animateMotion></circle>
+                <circle r="3" fill="#ffffff" filter="url(#glow-bright)" opacity="0"><animate id="p2" attributeName="opacity" values="0;1;1;0" dur="1.8s" begin="1.5s;p2.end+4s" repeatCount="indefinite" /><animateMotion dur="2.8s" begin="1.5s;p2.end+4s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1"><mpath href="#r1"/></animateMotion></circle>
+                <circle r="4" fill="#60a5fa" filter="url(#glow-bright)" opacity="0"><animate id="p3" attributeName="opacity" values="0;1;1;0" dur="2.5s" begin="0.8s;p3.end+2s" repeatCount="indefinite" /><animateMotion dur="4s" begin="0.8s;p3.end+2s" repeatCount="indefinite" rotate="auto" keyPoints="0;0.4;1" keyTimes="0;0.3;1"><mpath href="#r2"/></animateMotion></circle>
+                <circle r="3.5" fill="#3b82f6" filter="url(#glow-bright)" opacity="0"><animate id="p4" attributeName="opacity" values="0;1;1;0" dur="1.5s" begin="3s;p4.end+5s" repeatCount="indefinite" /><animateMotion dur="2.4s" begin="3s;p4.end+5s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1"><mpath href="#r2"/></animateMotion></circle>
+                <circle r="4" fill="#93c5fd" filter="url(#glow-bright)" opacity="0"><animate id="p5" attributeName="opacity" values="0;1;1;0" dur="3s" begin="0.2s;p5.end+6s" repeatCount="indefinite" /><animateMotion dur="5s" begin="0.2s;p5.end+6s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1"><mpath href="#r3"/></animateMotion></circle>
+                <circle r="4" fill="#ffffff" filter="url(#glow-bright)" opacity="0"><animate id="p6" attributeName="opacity" values="0;1;1;0" dur="2s" begin="2.5s;p6.end+3s" repeatCount="indefinite" /><animateMotion dur="3.5s" begin="2.5s;p6.end+3s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1"><mpath href="#r3"/></animateMotion></circle>
+            </svg>
+            
+            <div class="route-caption">
+                <span class="caption-ukraine">Ukraine</span>
+                
+                <div class="spark-arrow">
+                    <svg viewBox="0 0 250 14" preserveAspectRatio="none" style="width: 100%; height: 100%;" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <filter id="glow-spark">
+                                <feGaussianBlur stdDeviation="2" result="blur"/>
+                                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                            </filter>
+                        </defs>
+                        
+                        <path id="arrow-line" d="M 10 7 L 240 7" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.3"/>
+                        
+                        <path d="M 10 7 L 20 3 M 10 7 L 20 11" stroke="#3b82f6" stroke-width="1.5" opacity="0.5"/>
+                        <path d="M 240 7 L 230 3 M 240 7 L 230 11" stroke="#3b82f6" stroke-width="1.5" opacity="0.5"/>
+
+                        <circle r="2.5" fill="#3b82f6" filter="url(#glow-spark)" opacity="0">
+                            <animate id="s1" attributeName="opacity" values="0;1;1;0" dur="1s" begin="0s;s1.end+1s" repeatCount="indefinite" />
+                            <animateMotion dur="1.8s" repeatCount="indefinite"><mpath href="#arrow-line"/></animateMotion>
+                        </circle>
+
+                        <circle r="2" fill="#ffffff" filter="url(#glow-spark)" opacity="0">
+                            <animate id="s2" attributeName="opacity" values="0;1;1;0" dur="0.8s" begin="0.5s;s2.end+1.5s" repeatCount="indefinite" />
+                            <animateMotion dur="1.5s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1"><mpath href="#arrow-line"/></animateMotion>
+                        </circle>
+                    </svg>
+                </div>
+
+                <span class="caption-china">China</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="investment">
+        <h2>Priority Investment Sectors</h2>
+        <div class="grid">
+            <div class="card"><span class="card-icon">🌾</span><h3>Agriculture</h3><p>Modernizing farming and export logistics for the "Breadbasket of Europe"</p></div>
+            <div class="card"><span class="card-icon">⚡</span><h3>Energy</h3><p>Green energy projects and infrastructure reconstruction</p></div>
+            <div class="card"><span class="card-icon">💻</span><h3>IT & Tech</h3><p>Leveraging Ukraine's world-class engineering talent for R&D centers</p></div>
+            <div class="card"><span class="card-icon">🏗️</span><h3>Infrastructure</h3><p>Participation in large-scale reconstruction and Belt & Road projects</p></div>
+        </div>
+    </section>
+
+    <section id="services">
+        <h2>Our Professional Services</h2>
+        <p class="section-desc">End-to-end legal and administrative solutions for your business lifecycle</p>
+        <div class="grid">
+            <div class="card">
+                <h3>Corporate Law</h3>
+                <p>Company formation (LLC, Joint Ventures), branch office registration, and corporate governance</p>
+            </div>
+            <div class="card">
+                <h3>Banking & Finance</h3>
+                <p>Corporate account opening, currency control compliance, and investment repatriation advice</p>
+            </div>
+            <div class="card">
+                <h3>Tax Planning</h3>
+                <p>International tax optimization, VAT refunds, and comprehensive accounting support</p>
+            </div>
+            <div class="card">
+                <h3>IP Protection</h3>
+                <p>Trademark registration and protection of intellectual property in the Ukrainian jurisdiction</p>
+            </div>
+            <div class="card">
+                <h3>M&A Support</h3>
+                <p>Due diligence, asset valuation, and full legal support for mergers and acquisitions</p>
+            </div>
+            <div class="card">
+                <h3>Government Relations</h3>
+                <p>Facilitating communication with local authorities and obtaining special permits/licenses</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="entry">
+        <h2>Market Entry Roadmap</h2>
+        <p class="section-desc">A comprehensive step-by-step guide to launching your business operations in Ukraine</p>
+        
+        <div class="grid">
+            <div class="card">
+                <div class="step-number">01</div>
+                <span class="card-icon">📋</span>
+                <h3>Pre-Entry Consulting</h3>
+                <p>Market analysis, legal structuring advice, and choosing the right tax model (LLC vs. Representative Office)</p>
+            </div>
+
+            <div class="card">
+                <div class="step-number">02</div>
+                <span class="card-icon">⚖️</span>
+                <h3>Entity Registration</h3>
+                <p>Full legal incorporation, drafting Articles of Association, and obtaining state registration certificates</p>
+            </div>
+
+            <div class="card">
+                <div class="step-number">03</div>
+                <span class="card-icon">🏦</span>
+                <h3>Banking & Tax</h3>
+                <p>Corporate bank account opening with full KYC support and registration as a VAT or Single Tax payer</p>
+            </div>
+
+            <div class="card">
+                <div class="step-number">04</div>
+                <span class="card-icon">🛡️</span>
+                <h3>Permits & Licensing</h3>
+                <p>Acquiring industry-specific licenses, fire safety permits, and sanitary-epidemiological conclusions</p>
+            </div>
+
+            <div class="card">
+                <div class="step-number">05</div>
+                <span class="card-icon">🛂</span>
+                <h3>Team Relocation</h3>
+                <p>Work permits for foreign citizens, temporary residency, and individual tax ID acquisition</p>
+            </div>
+
+            <div class="card">
+                <div class="step-number">06</div>
+                <span class="card-icon">🚀</span>
+                <h3>Operational Launch</h3>
+                <p>Contract drafting for local partners, labor law compliance, and ongoing legal maintenance</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="team">
+        <h2 style="text-align: center;">Our Management Team</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="member-photo">
+                    <img src="manager1.png" alt="Partner Name">
+                </div>
+                <div class="member-info">
+                    <h3>ANDREW OLEFIRENKO</h3>
+                    <p class="role">CEO & Managing Partner<br></p>
+                    <p class="desc">PhD in Law. Attorney-at-Law with 25+ years of experience, specializing in comprehensive business legal support and strategic corporate defense. Expert in navigating cross-border regulatory frameworks and providing high-level protection for international investors in Ukraine and emerging European markets</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="member-photo">
+                    <img src="manager2.png" alt="Partner Name">
+                </div>
+                <div class="member-info">
+                    <h3>VIKTOR ELBERG</h3>
+                    <p class="role">Managing Partner & Head of International Department</p>
+                    <p class="desc">Expertise in AI-driven solutions and advanced IT infrastructure. A seasoned entrepreneur and key organizer of Chinese industrial and investment projects across Ukraine and Kazakhstan. Polyglot, fluent in 7 languages, bridging the gap between global technology and local market implementation</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="member-photo">
+                    <img src="manager3.png" alt="Partner Name">
+                </div>
+                <div class="member-info">
+                    <h3>YULIA PAVLENKO</h3>
+                    <p class="role">Managing Partner & Head of Tax Department</p>
+                    <p class="desc">PhD in Law and Taxation. Expert in Ukrainian regulatory compliance, tax optimization, and market entry strategies for foreign enterprises. Extensive experience in structuring international investment deals and ensuring legal transparency for global corporations entering the Ukrainian and EU markets</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="member-photo">
+                    <img src="manager4.png" alt="Partner Name">
+                </div>
+                <div class="member-info">
+                    <h3>KONSTANTIN BARKOV</h3>
+                    <p class="role">Senior Associate</p>
+                    <p class="desc">Corporate Law Expert & Strategic Consultant. Specializing in risk management, corporate compliance, and structural optimization for international holdings. Proven track record in securing business operations and ensuring long-term legal sustainability for foreign investors</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="member-photo">
+                    <img src="manager5.png" alt="Partner Name">
+                </div>
+                <div class="member-info">
+                    <h3>DANA JIANG</h3>
+                    <p class="role">Chinese Business Consultant</p>
+                    <p class="desc">MBA, South Ukrainian National Pedagogical University. Long-term Ukraine resident with deep expertise in local business environment and legal framework. Provides investment advisory and market entry support to Chinese clients.</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="member-photo">
+                    <img src="manager6.png" alt="Partner Name">
+                </div>
+                <div class="member-info">
+                    <h3>CHRISTINA KRAVCHUK</h3>
+                    <p class="role">Senior Associate</p>
+                    <p class="desc">Attorney-at-Law specializing in Corporate and Family Law. Expert in protecting private assets, structuring family inheritance, and resolving complex domestic legal matters. Provides discreet and strategic legal counsel for business owners and high-net-worth individuals</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Start Your Journey</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Kyiv Office</h3>
+                <p>📍 Shevchenko Ave, Kyiv, Ukraine</p>
+                <p>📞 +38 068 937 8118</p>
+                <p>📧 info@ukraine-law.com</p>
+            </div>
+            <div class="card">
+                <h3>Contact from China</h3>
+                <p>📍 Beijing / Hangzhou / Urumqi Support</p>
+                <p>📧 china@ukraine-law.com</p>
+            </div>
+            <div class="card" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));">
+                <h3>Free Consultation</h3>
+                <p>Send us your inquiry and our experts will contact you within 24 hours.</p>
+                <a href="mailto:office@cpk.ua" class="button" style="margin-top: 15px; width: 100%; text-align: center;">Send Email</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="location">
+        <div class="container">
+            <h2>Our Office</h2>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2540.819382215456!2d30.495548476964265!3d50.44167158778641!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4cefbdb0ec9ff%3A0x40a4c3c98f4fb508!2z0LLRg9C70LjRhtGPINCh0LDQutGB0LDQs9Cw0L3RgdGM0LrQvtCz0L4sIDEyMSwg0JrQuNGX0LIsIDAyMDAw!5e0!3m2!1suk!2sua!4v1710000000000!5m2!1suk!2sua" 
+                    width="100%" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <a href="#">
+                <img src="CPKlogowhite.svg" alt="ULCC Logo" class="footer-logo-img">
+            </a>
+
+            <div class="footer-links">
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#investment">Investment</a>
+                <a href="#team">Team</a>
+                <a href="#contact">Contact</a>
+            </div>
+
+            <p class="footer-copy">
+                © 2026 Ukraine Legal Consulting Center. All rights reserved. <br> 
+                Strategic legal support for the China-Ukraine business corridor since 2004.
+            </p>
+        </div>
+    </footer>
+</div>
+
+<div class="wechat">
+    <img src="wechat.svg" alt="WeChat QR"> <span>Contact WeChat</span>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const introText = "Your Legal Gateway to Ukraine & Europe";
+    const container = document.querySelector(".typing-text");
+
+    if (!container) return;
+
+    container.innerHTML = '';
+    
+    const words = introText.split(" ");
+    let charGlobalIndex = 0;
+
+    words.forEach((wordText, wordIdx) => {
+        const wordSpan = document.createElement("span");
+        wordSpan.className = "word";
+
+        wordText.split("").forEach((char) => {
+            const charSpan = document.createElement("span");
+            charSpan.textContent = char;
+            charSpan.className = "char";
+            charSpan.style.animationDelay = `${charGlobalIndex * 0.03}s`;
+            wordSpan.appendChild(charSpan);
+            charGlobalIndex++;
+        });
+
+        container.appendChild(wordSpan);
+        if (wordIdx < words.length - 1) {
+            const space = document.createTextNode(" ");
+            container.appendChild(space);
+            charGlobalIndex++;
+        }
+    });
+});
+
+function scrollToTop(event) {
+    event.preventDefault();
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const logo = document.querySelector('.logo-link');
+        if (logo) logo.classList.add('active');
+    }, 500); 
+});
+
+function toggleMenu() {
+    const nav = document.getElementById('navLinks');
+    const toggle = document.querySelector('.menu-toggle');
+    if (window.innerWidth <= 992) {
+        nav.classList.toggle('active');
+        toggle.classList.toggle('active');
+        document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : 'auto';
+    }
+}
+
+let lastScrollY = window.scrollY;
+
+window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    const currentScrollY = window.scrollY;
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        nav.classList.add('nav-hidden');
+    } 
+    else {
+        nav.classList.remove('nav-hidden');
+    }
+    lastScrollY = currentScrollY;
+});
+</script>
+
+</body>
+</html>
